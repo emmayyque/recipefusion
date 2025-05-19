@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./AdminDashboard.css";
 import * as Icons from "react-icons/fa6";
-import Chart from "react-apexcharts";
+import Chart from "apexcharts";
+// import Chart from "react-apexcharts";
 import Sidebar from "../Dashboards/Sidebar.jsx";
 import axios from "axios";
 import Loader from "../Loader";
