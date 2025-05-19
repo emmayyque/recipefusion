@@ -4,8 +4,15 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "./Login.css";
 import signupImage from "../../assets/Images/signup.svg";
-import { FaUser, FaEnvelope, FaPhone, FaVenusMars, FaLock } from "react-icons/fa";
-const baseURL = import.meta.env.VITE_NODE_URL
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaVenusMars,
+  FaLock,
+} from "react-icons/fa";
+const baseURL = import.meta.env.VITE_NODE_URL;
+import Loader from "../Loader";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,6 +23,7 @@ const Signup = () => {
     gender: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,11 +31,13 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show loader
 
     const { username, email, phone, gender, password } = formData;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      setLoading(false);
       return Swal.fire({
         icon: "error",
         title: "Invalid Email",
@@ -37,6 +47,7 @@ const Signup = () => {
 
     const phoneRegex = /^(\+?\d{10,15})$/;
     if (!phoneRegex.test(phone)) {
+      setLoading(false);
       return Swal.fire({
         icon: "error",
         title: "Invalid Phone Number",
@@ -46,6 +57,7 @@ const Signup = () => {
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(password)) {
+      setLoading(false);
       return Swal.fire({
         icon: "error",
         title: "Weak Password",
@@ -54,9 +66,15 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(`${baseURL}/api/auth/register`, formData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${baseURL}/api/auth/register`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      setLoading(false); // Hide loader before showing alert
 
       if (response.status === 201) {
         Swal.fire({
@@ -64,12 +82,16 @@ const Signup = () => {
           title: "Registration Successful",
           text: response.data.message,
           showConfirmButton: false,
+          timer: 2000,
         });
         navigate("/login");
       }
     } catch (error) {
+      setLoading(false); // Hide loader on error
+
       const errorMessage =
-        error.response?.data?.message || "Something went wrong. Please try again.";
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
 
       Swal.fire({
         icon: "error",
@@ -82,7 +104,9 @@ const Signup = () => {
   return (
     <div id="logsign" className="login-signup-container">
       <header className="navbar">
-        <h1 className="nav-heading"><span>Recipe</span>Fusion</h1>
+        <h1 className="nav-heading">
+          <span>Recipe</span>Fusion
+        </h1>
         <div className="nav-buttons">
           <button className="btn-login" onClick={() => navigate("/home")}>
             Home
@@ -100,69 +124,76 @@ const Signup = () => {
 
         <div className="leftSection">
           <h2 className="section-title">Create an Account</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="input-container">
-              <FaUser className="icons-colored" />
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                placeholder="Username"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input-container">
-              <FaEnvelope className="icons-colored" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                placeholder="Email"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input-container">
-              <FaPhone className="icons-colored" />
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                placeholder="Phone"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input-container">
-              <FaVenusMars className="icons-colored" />
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div className="input-container">
-              <FaLock className="icons-colored" />
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                placeholder="Password"
-                onChange={handleChange}
-              />
-            </div>
 
-            <button type="submit" className="btn-login">
-              Sign Up
-            </button>
-          </form>
+          {loading ? (
+            <Loader />
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className="input-container">
+                <FaUser className="icons-colored" />
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  placeholder="Username"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input-container">
+                <FaEnvelope className="icons-colored" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  placeholder="Email"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input-container">
+                <FaPhone className="icons-colored" />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  placeholder="Phone"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input-container">
+                <FaVenusMars className="icons-colored" />
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="input-container">
+                <FaLock className="icons-colored" />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  placeholder="Password"
+                  onChange={handleChange}
+                />
+              </div>
 
-          <p className="form-text">
-            Already have an account? <a href="/login">Login</a>
-          </p>
+              <button type="submit" className="btn-login">
+                Sign Up
+              </button>
+            </form>
+          )}
+
+          {!loading && (
+            <p className="form-text">
+              Already have an account? <a href="/login">Login</a>
+            </p>
+          )}
         </div>
       </div>
     </div>
