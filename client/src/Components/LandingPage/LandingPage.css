@@ -172,7 +172,7 @@ span{
 
 .heroPageContainer:before {
   content: "";
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.7); 
   position: absolute;
   bottom: 0;
   top: 0;
@@ -308,6 +308,7 @@ margin-bottom: 10px;
 font-size: 1rem;
 color: var(--dark-grey-color-1);
 }
+
 /*banner*/
 .quote-banner {
 text-align: center;
@@ -394,7 +395,7 @@ text-align: center;
 
 @media (max-width: 480px) {
 .recipes-grid {
-  grid-template-columns: repeat(1, 1fr); 
+  grid-template-columns: repeat(2, 1fr); 
 }
 }
 
