@@ -387,7 +387,7 @@
 /* Responsive Touch */
 @media (max-width: 768px) {
   .saved-recipes-container {
-    padding: 10px;
+    padding: 15px;
     margin-left: 0px;
   }
 
@@ -427,7 +427,7 @@
 @media (max-width: 480px) {
   .saved-recipes-container {
     padding: 20px;
-    margin-left: 60px;
+    margin-left: 55px;
   }
 
 }
