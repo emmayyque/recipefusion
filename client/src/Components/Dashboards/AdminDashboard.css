@@ -1,0 +1,181 @@
+.admin-dashboard {
+  padding: 5px;
+  height: 100vh;
+  padding-right: 10px;
+  margin-left: 230px;
+  flex: 1;
+  background: var(--light-grey-color-2);
+}
+
+.admin-nav {
+  align-items: flex-start;
+}
+
+.greeting {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.cards-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap; 
+}
+
+.card {
+  flex: 1;
+  background-color: var(--primary-color);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(191, 76, 13, 0.9);
+  text-align: center;
+  min-width: 150px;
+}
+
+.card-heading, .count {
+  color: var(--white-color);
+  margin: 0;
+}
+
+.count {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.card-icons {
+  color: var(--primary-color);
+  background-color: var(--white-color);
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-content {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.chart-container,
+.barchart {
+  flex: 1;
+  max-width: 50%;
+}
+
+.barchart {
+  width: 500px;
+  transition: all 0.3s ease-in-out;
+}
+
+.barchart:hover {
+  transform: scale(1.01);
+}
+
+.barchart-header {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  gap: 10px;
+  color: var(--primary-color);
+}
+
+.barchart-container {
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.dashboard-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  flex-wrap: wrap; 
+}
+
+.barchart {
+  width: 50%;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+  background: white;
+  width: 40%;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+}
+
+.chart-container:hover {
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.chart-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  margin-top: 3px;
+  color: var(--primary-color);
+}
+
+@media screen and (max-width: 1024px) {
+  .cards-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    min-width: 200px;
+  }
+
+  .dashboard-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-container,
+  .barchart {
+    width: 80%;
+    max-width: 600px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-dashboard {
+    margin-left: 60px;
+  }
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    min-width: unset;
+  }
+
+  .dashboard-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-container,
+  .barchart {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+

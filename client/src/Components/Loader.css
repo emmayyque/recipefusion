@@ -1,0 +1,52 @@
+.loader-container {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+.loader {
+  width: 64px;
+  height: 64px;
+  border: 6px solid transparent;
+  border-top: 6px solid #ffa600;   
+  border-right: 6px solid #ffa600;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: relative;
+}
+
+.loader::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 6px solid transparent;
+  border-bottom: 6px solid #ff7600; 
+  border-left: 6px solid #ff7600;
+  border-radius: 50%;
+  animation: spinReverse 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
