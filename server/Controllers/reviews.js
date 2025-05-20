@@ -53,7 +53,7 @@ router.delete("/reviews/:userId/:recipeId", async (req, res) => {
 // Get all reviews from all users
 router.get("/all-reviews", async (req, res) => {
   try {
-    const reviews = await Review.find().populate("userId", "username email");
+    const reviews = await Review.find().populate("userId", "username email").sort({ createdAt: -1 });
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ message: "Error fetching all reviews", error: err });
