@@ -110,29 +110,53 @@ function RecipesPage() {
 
       {/* Modal */}
       {selectedRecipe && (
-        <div className="modal-overlay" onClick={() => setSelectedRecipe(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="modal-title">{selectedRecipe.name}</h2>
-            <img
-              src={selectedRecipe.image}
-              alt={selectedRecipe.name}
-              className="modal-image"
-            />
-            <p>
-              <strong>Category:</strong> {selectedRecipe.category}
-            </p>
-            <p>
-              <strong>Description:</strong> {selectedRecipe.description}
-            </p>
-            <button
-              className="btn-close"
-              onClick={() => setSelectedRecipe(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="modal-overlay" onClick={() => setSelectedRecipe(null)}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <h2 className="modal-title">{selectedRecipe.name}</h2>
+      <img
+        src={selectedRecipe.image}
+        alt={selectedRecipe.name}
+        className="modal-image"
+      />
+      <p>
+        <strong>Category:</strong> {selectedRecipe.category}
+      </p>
+
+      {/* Ingredients */}
+      <div>
+        <strong>Ingredients:</strong>
+        {selectedRecipe.ingredients && selectedRecipe.ingredients.length > 0 ? (
+          <ul>
+            {selectedRecipe.ingredients.map((ing, index) => (
+              <li key={index}>{ing}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No ingredients available.</p>
+        )}
+      </div>
+
+      {/* Steps */}
+      <div>
+        <strong>Steps:</strong>
+        {selectedRecipe.steps && selectedRecipe.steps.length > 0 ? (
+          <ol>
+            {selectedRecipe.steps.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ol>
+        ) : (
+          <p>No steps available.</p>
+        )}
+      </div>
+
+      <button className="btn-close" onClick={() => setSelectedRecipe(null)}>
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
     </>
   );
 }
