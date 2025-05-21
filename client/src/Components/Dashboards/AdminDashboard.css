@@ -153,7 +153,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .admin-dashboard {
     margin-left: 60px;
   }
@@ -179,3 +179,9 @@
   }
 }
 
+@media (max-width: 480px){
+  .admin-dashboard {
+    margin-left: 50px;
+    padding: 20px;
+  } 
+}
