@@ -9,6 +9,8 @@ import footersvg from "../../assets/Images/footer1.svg";
 import footersvg1 from "../../assets/Images/footer.svg";
 import axios from "axios";
 import Loader from "../Loader";
+const baseURL = import.meta.env.VITE_NODE_URL;
+import Swal from "sweetalert2";
 
 function LandingPage() {
   const [recipes, setRecipes] = useState([]);
@@ -45,11 +47,66 @@ function LandingPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <Loader />;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const subject = form.subject.value.trim();
+  const message = form.message.value.trim();
+
+  if (!name || !email || !subject || !message) {
+    Swal.fire({
+      icon: "warning",
+      title: "Incomplete Fields",
+      text: "Please fill in all fields.",
+    });
+    return;
   }
+
+  try {
+    setLoading(true);
+
+    const { data } = await axios.post(`${baseURL}/api/contact/contact-email`, {
+      name,
+      email,
+      subject,
+      message,
+    });
+
+    form.reset();
+    setLoading(false); // hide loader before showing alert
+
+    Swal.fire({
+      icon: "success",
+      title: "Message Sent!",
+      text: "Your message has been sent successfully.",
+    });
+  } catch (err) {
+    console.error("Error submitting contact form:", err);
+    const errorMsg =
+      err.response?.data?.error ||
+      "Failed to send message. Please try again.";
+
+    setLoading(false); // hide loader before showing alert
+
+    Swal.fire({
+      icon: "error",
+      title: "Oops!",
+      text: errorMsg,
+    });
+  }
+};
+
+
+ 
   return (
+    
     <div className="landingPage">
+    {loading && (
+        <Loader />
+    )}
       <a id="top"></a>
 
       <header>
@@ -213,24 +270,39 @@ function LandingPage() {
           data-aos-delay="200"
         >
           <div className="contact-svg" data-aos="zoom-in" data-aos-delay="300">
-            <img src={contactsvg} />
+            <img src={contactsvg} alt="Contact" />
           </div>
 
           <div className="contact-form" data-aos="fade-up" data-aos-delay="400">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <input type="text" placeholder="Your Name" required />
                 <input
+                  name="name"
+                  type="text"
+                  placeholder="Your Name"
+                  
+                />
+                <input
+                  name="email"
                   type="email"
                   placeholder="Your Email"
-                  required
-                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                  
                 />
               </div>
-              <input type="text" placeholder="Subject" required />
-              <textarea placeholder="Message" rows="5" required></textarea>
-              <button type="submit" className="btn-explore">
-                Send Message
+              <input
+                name="subject"
+                type="text"
+                placeholder="Subject"
+                
+              />
+              <textarea
+                name="message"
+                placeholder="Message"
+                rows="5"
+                
+              ></textarea>
+              <button type="submit" className="btn-explore" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

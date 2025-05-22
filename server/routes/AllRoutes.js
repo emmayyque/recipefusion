@@ -7,6 +7,7 @@ const reviews = require('../Controllers/reviews')
 const savedRecipes = require('../Controllers/savedRecipes')
 const searchHistory = require('../Controllers/searchHistory')
 const users = require('../Controllers/users')
+const contact = require('../Controllers/contact')
 
 
 
@@ -16,5 +17,6 @@ router.use('/reviews', reviews);
 router.use('/savedRecipes', savedRecipes);
 router.use('/searchHistory', searchHistory);
 router.use('/users', users);
+router.use('/contact', contact);
 
 module.exports= router
