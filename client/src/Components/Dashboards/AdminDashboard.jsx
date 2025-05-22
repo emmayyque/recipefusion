@@ -108,8 +108,7 @@ function AdminDashboard() {
         ) : (
           <div style={{ width: "100%" }}>
             <div className="row jc-between">
-              <h3 className="greeting">Welcome</h3>
-              <h4>Admin</h4>
+              <h3 className="greeting">Welcome Admin</h3>
             </div>
 
             <div className="cards-container jc-evenly">
