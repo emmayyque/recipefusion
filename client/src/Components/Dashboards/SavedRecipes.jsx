@@ -3,6 +3,7 @@ import "./UserDashboard.css";
 import Sidebar from "./UserSidebar";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_NODE_URL;
 
@@ -15,7 +16,7 @@ const SaveRecipes = () => {
     if (userId) {
       axios
         .get(`${baseURL}/api/savedRecipes/saved-recipes/${userId}`, {
-          withCredentials: true, 
+          withCredentials: true,
         })
         .then((res) => setSavedRecipes(res.data))
         .catch(() => setSavedRecipes([]));
@@ -37,7 +38,7 @@ const SaveRecipes = () => {
       if (result.isConfirmed) {
         axios
           .delete(`${baseURL}/api/savedRecipes/saved-recipes/${userId}/${recipeId}`, {
-            withCredentials: true, 
+            withCredentials: true,
           })
           .then(() => {
             setSavedRecipes((prev) =>
@@ -80,12 +81,17 @@ const SaveRecipes = () => {
                 />
                 <div className="saved-recipe-info">
                   <h3>{recipe.title}</h3>
-                  <button
-                    onClick={() => removeRecipe(recipe.recipeId)}
-                    className="remove-button"
-                  >
-                    Remove
-                  </button>
+                  <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                    <Link to={`/recipe/${recipe.recipeId}`}>
+                      <button className="view-button">View Recipe</button>
+                    </Link>
+                    <button
+                      onClick={() => removeRecipe(recipe.recipeId)}
+                      className="remove-button"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}

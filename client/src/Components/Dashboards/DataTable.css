@@ -204,7 +204,6 @@ h3 {
 
 .ingredient-list li {
   padding: 10px;
-  font-size: 0.9rem;
   background: #fff3e0;
   border-radius: 8px;
   display: flex;
@@ -212,10 +211,17 @@ h3 {
   gap: 8px;
   transition: transform 0.3s;
 }
-
-.ingredient-list li:hover {
-  transform: scale(1.02);
+.ingredient-list,
+.instructions-list,
+.shopping-list-list{
+  li{
+  font-size: 22px;
+  font-weight: 450;
+  font-family: '';
 }
+
+}
+
 
 .ingredient-list li::before {
   content: "✔";
@@ -232,7 +238,6 @@ h3 {
 
 .instructions-list li {
   padding: 10px;
-  font-size: 0.9rem;
   background: #e3f2fd;
   border-radius: 8px;
   margin-bottom: 5px;
@@ -297,12 +302,11 @@ h3 {
 }
 
 .shopping-list-container li {
-  background: #df9e76; 
+  background: #c49d85; 
   color: var(--black-color);
   padding: 5px 8px;
   margin: 5px 0;
   border-radius: 5px;
-  font-size: 0.9rem;
   display: flex;
   align-items: center;
 }
@@ -315,7 +319,6 @@ h3 {
 }
 
 .shopping-list-container li:hover {
-  background: var(--primary-color-alpha); 
   cursor: pointer;
   transform: scale(1.02);
   transition: all 0.3s ease-in-out;
@@ -393,148 +396,7 @@ h3 {
       padding: 5px;
   }
 }
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6); 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  }
-  
-  .modal-content {
-  background: #fff;
-  width: 90%;
-  max-width: 800px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  max-height: 90vh;
-  overflow-y: auto;
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    text-align: left;
-  }
-  
-  li {
-    background: #f8f8f8;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  p {
-    font-size: 16px;
-    line-height: 1.5;
-    text-align: left;
-    margin-top: 10px;
-  }
-  
-  .btn-close {
-    background: var(--danger-color); 
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .btn-close:hover {
-    background: #e05239;
-  }
-  }
-  
-  .modal-title {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #333;
-  }
-  
-  .modal-image {
-  width: 100%;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  }
-  .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.modal-overlay-container{
   background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
 
-.modal-content {
-  background-color: #ffffff;
-  padding: 2rem 2.5rem;
-  border-radius: 16px;
-  width: 700px;
-  max-width: 100%;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
-
-.modal-content h3 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  text-align: center;
-}
-
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-family: inherit;
-  color: #222;
-  background-color: #f9f9f9;
-}
-
-.modal-content textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.modal-buttons .btn-login {
-  flex: 1;
-  padding: 0.75rem;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.modal-buttons .btn-login:hover {
-  background-color: var(--primary-color-alpha);
 }

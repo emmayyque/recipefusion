@@ -155,36 +155,38 @@ function LandingPage() {
 
       {/*recipe-info mdal*/}
       {selectedRecipe && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2 className="modal-title">{selectedRecipe.title}</h2>
-            <img
-              src={selectedRecipe.image}
-              alt={selectedRecipe.title}
-              className="modal-image"
-            />
-            <h3>Ingredients:</h3>
-            <ul>
-              {selectedRecipe.extendedIngredients.map((ingredient, index) => (
-                <li key={index}>{ingredient.original}</li>
-              ))}
-            </ul>
-            <h3>Instructions:</h3>
-            <ol>
-              {selectedRecipe.analyzedInstructions.length > 0 ? (
-                selectedRecipe.analyzedInstructions[0].steps.map((step) => (
-                  <li key={step.number}>{step.step}</li>
-                ))
-              ) : (
-                <p>No instructions available.</p>
-              )}
-            </ol>
-            <button
-              className="btn-close"
-              onClick={() => setSelectedRecipe(null)}
-            >
-              Close
-            </button>
+        <div className="modal-overlay-container">
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2 className="modal-title">{selectedRecipe.title}</h2>
+              <img
+                src={selectedRecipe.image}
+                alt={selectedRecipe.title}
+                className="modal-image"
+              />
+              <h3>Ingredients:</h3>
+              <ul className="plain-text">
+                {selectedRecipe.extendedIngredients.map((ingredient, index) => (
+                  <li key={index}>{ingredient.original}</li>
+                ))}
+              </ul>
+              <h3>Instructions:</h3>
+              <ol className="plain-text">
+                {selectedRecipe.analyzedInstructions.length > 0 ? (
+                  selectedRecipe.analyzedInstructions[0].steps.map((step) => (
+                    <li key={step.number}>{step.step}</li>
+                  ))
+                ) : (
+                  <p className="plain-text">No instructions available.</p>
+                )}
+              </ol>
+              <button
+                className="btn-close"
+                onClick={() => setSelectedRecipe(null)}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

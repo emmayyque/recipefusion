@@ -169,7 +169,7 @@ const RecipeDetails = () => {
       {shoppingList.length > 0 && (
         <div className="shopping-list-container">
           <h3>Shopping List</h3>
-          <ul>
+          <ul className="shopping-list-list">
             {shoppingList.map((item, index) => (
               <li key={index}>{item}</li>
             ))}

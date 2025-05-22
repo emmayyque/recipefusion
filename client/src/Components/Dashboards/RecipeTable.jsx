@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import DataTable from "./DataTable";
 import * as Icons from "react-icons/fa6";
 import "./DataTable.css";
-const baseURL = import.meta.env.VITE_NODE_URL
+const baseURL = import.meta.env.VITE_NODE_URL;
 
 function RecipesPage() {
   const [recipes, setRecipes] = useState([]);
@@ -54,7 +54,7 @@ function RecipesPage() {
             {
               method: "DELETE",
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("auth-token")}`, 
+                Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
               },
             }
           );
@@ -110,53 +110,56 @@ function RecipesPage() {
 
       {/* Modal */}
       {selectedRecipe && (
-  <div className="modal-overlay" onClick={() => setSelectedRecipe(null)}>
-    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-      <h2 className="modal-title">{selectedRecipe.name}</h2>
-      <img
-        src={selectedRecipe.image}
-        alt={selectedRecipe.name}
-        className="modal-image"
-      />
-      <p>
-        <strong>Category:</strong> {selectedRecipe.category}
-      </p>
+        <div className="modal-overlay-container">
+        <div className="modal-overlay" onClick={() => setSelectedRecipe(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2 className="modal-title">{selectedRecipe.name}</h2>
+            <img
+              src={selectedRecipe.image}
+              alt={selectedRecipe.name}
+              className="modal-image"
+            />
+            
 
-      {/* Ingredients */}
-      <div>
-        <strong>Ingredients:</strong>
-        {selectedRecipe.ingredients && selectedRecipe.ingredients.length > 0 ? (
-          <ul>
-            {selectedRecipe.ingredients.map((ing, index) => (
-              <li key={index}>{ing}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No ingredients available.</p>
-        )}
-      </div>
+            {/* Ingredients */}
+            <div>
+              <h3>Ingredients:</h3>
+              {selectedRecipe.ingredients &&
+              selectedRecipe.ingredients.length > 0 ? (
+                <ul>
+                  {selectedRecipe.ingredients.map((ing, index) => (
+                    <li key={index}>{ing}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No ingredients available.</p>
+              )}
+            </div>
 
-      {/* Steps */}
-      <div>
-        <strong>Steps:</strong>
-        {selectedRecipe.steps && selectedRecipe.steps.length > 0 ? (
-          <ol>
-            {selectedRecipe.steps.map((step, index) => (
-              <li key={index}>{step}</li>
-            ))}
-          </ol>
-        ) : (
-          <p>No steps available.</p>
-        )}
-      </div>
+            {/* Steps */}
+            <div>
+              <h3>Steps:</h3>
+              {selectedRecipe.steps && selectedRecipe.steps.length > 0 ? (
+                <ol>
+                  {selectedRecipe.steps.map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
+                </ol>
+              ) : (
+                <p>No steps available.</p>
+              )}
+            </div>
 
-      <button className="btn-close" onClick={() => setSelectedRecipe(null)}>
-        Close
-      </button>
-    </div>
-  </div>
-)}
-
+            <button
+              className="btn-close"
+              onClick={() => setSelectedRecipe(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        </div>
+      )}
     </>
   );
 }

@@ -184,4 +184,13 @@
     margin-left: 50px;
     padding: 20px;
   } 
+  .card {
+    width: 70%;
+    min-width: unset;
+  }
+  .chart-container,
+  .barchart {
+    width: 95%;
+    max-width: 95%;
+  }
 }

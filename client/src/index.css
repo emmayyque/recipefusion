@@ -10,12 +10,16 @@
   font-weight: 300;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Barlow';
-  src: url('../fonts/Barlow-Regular.ttf') format('truetype');
+  src: url('../fonts/Barlow-SemiBold.ttf') format('truetype');
   font-weight: 400;
+} */
+@font-face {
+  font-family: 'AncizarSerif';
+  src: url('../fonts/static/AncizarSerif-SemiBold.ttf');
+  font-weight: 450;
 }
-
 @font-face {
   font-family: 'Barlow';
   src: url('../fonts/Barlow-Medium.ttf') format('truetype');
