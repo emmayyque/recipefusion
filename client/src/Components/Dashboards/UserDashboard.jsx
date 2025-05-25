@@ -4,6 +4,7 @@ import Sidebar from "./UserSidebar";
 import Loader from "../Loader"
 import axios from "axios";
 const baseURL = import.meta.env.VITE_NODE_URL;
+import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -105,13 +106,15 @@ const UserDashboard = () => {
       {!loading && (
         <div className="dashboard-right">
           <ul className="recommended-list">
-            {recommendations.map((recipe) => (
-              <li key={recipe.id} className="recipe-card">
-                <img src={recipe.image} alt={recipe.title} />
-                <p>{recipe.title}</p>
-              </li>
-            ))}
-          </ul>
+  {recommendations.map((recipe) => (
+    <li key={recipe.id} className="recipe-card">
+      <Link to={`/recipe/${recipe.id}`} className="recipe-link">
+        <img src={recipe.image} alt={recipe.title} />
+        <p>{recipe.title}</p>
+      </Link>
+    </li>
+  ))}
+</ul>
         </div>
       )}
     </div>

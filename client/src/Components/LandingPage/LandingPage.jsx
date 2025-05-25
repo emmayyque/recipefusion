@@ -178,7 +178,7 @@ function LandingPage() {
           Popular Recipes
         </h2>
 
-        {loading ? (
+        
           <div
             style={{
               display: "flex",
@@ -186,9 +186,8 @@ function LandingPage() {
               marginTop: "20px",
             }}
           >
-            <Loader />
           </div>
-        ) : (
+        
           <div className="recipes-grid" data-aos="fade-up" data-aos-delay="300">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="recipe-card">
@@ -207,7 +206,7 @@ function LandingPage() {
               </div>
             ))}
           </div>
-        )}
+        
       </div>
 
       {/*recipe-info mdal*/}

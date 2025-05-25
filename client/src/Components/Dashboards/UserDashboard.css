@@ -630,13 +630,15 @@
 }
 
 .modal-content input, 
-.modal-content select {
+.modal-content select,
+.modal-content textarea {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
 }
+
 
 .modal-buttons {
   display: flex;

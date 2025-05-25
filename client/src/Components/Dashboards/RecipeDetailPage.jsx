@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "./DataTable.css";
 import Swal from "sweetalert2";
-const baseURL = import.meta.env.VITE_NODE_URL
+const baseURL = import.meta.env.VITE_NODE_URL;
 import Loader from "../Loader";
 
 const RecipeDetails = () => {
@@ -26,7 +26,9 @@ const RecipeDetails = () => {
       setError("");
       try {
         const response = await axios.get(
-          `https://api.spoonacular.com/recipes/${id}/information?apiKey=${import.meta.env.VITE_FOOD_API}`
+          `https://api.spoonacular.com/recipes/${id}/information?apiKey=${
+            import.meta.env.VITE_FOOD_API
+          }`
         );
         setRecipe(response.data);
 
@@ -43,18 +45,21 @@ const RecipeDetails = () => {
     fetchRecipeDetails();
   }, [id]);
 
-  
   const getShoppingList = () => {
     if (recipe) {
-      const ingredients = recipe.extendedIngredients.map(
-        (ingredient) => ingredient.original
-      );
+      const ingredients = recipe.extendedIngredients.map((ingredient) => ({
+        name: ingredient.name,
+        aisle: ingredient.aisle,
+      }));
+
+      ingredients.sort((a, b) => a.name.localeCompare(b.name));
+
       setShoppingList(ingredients);
     }
   };
 
   const saveRecipe = async () => {
-    const userId = localStorage.getItem("userId"); 
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       Swal.fire("Not Logged In", "Please log in to save recipes.", "warning");
       return;
@@ -88,7 +93,11 @@ const RecipeDetails = () => {
       if (error.response && error.response.status === 409) {
         Swal.fire("Already Saved", "This recipe is already saved.", "info");
       } else {
-        Swal.fire("Error", "Could not save the recipe. Try again later.", "error");
+        Swal.fire(
+          "Error",
+          "Could not save the recipe. Try again later.",
+          "error"
+        );
       }
     }
   };
@@ -98,7 +107,11 @@ const RecipeDetails = () => {
 
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      Swal.fire("Not Logged In", "Please log in to submit a review.", "warning");
+      Swal.fire(
+        "Not Logged In",
+        "Please log in to submit a review.",
+        "warning"
+      );
       return;
     }
 
@@ -114,15 +127,15 @@ const RecipeDetails = () => {
       const res = await axios.post(
         `${baseURL}/api/reviews/add-review`,
         reviewData,
-        { 
-          withCredentials: true, 
+        {
+          withCredentials: true,
         }
       );
 
       Swal.fire("Review Added", "Thanks for your feedback!", "success");
       setShowModal(false);
       setReviewForm({
-        title: recipe.title, 
+        title: recipe.title,
         review: "",
         sentiment: "neutral",
       });
@@ -167,14 +180,14 @@ const RecipeDetails = () => {
       </button>
 
       {shoppingList.length > 0 && (
-        <div className="shopping-list-container">
-          <h3>Shopping List</h3>
-          <ul className="shopping-list-list">
-            {shoppingList.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
+        <ul className="shopping-list-list">
+          {shoppingList.map((item, index) => (
+            <li key={index}>
+              <span style={{ fontWeight: "600" }}>{item.name}</span>
+              {item.aisle && <span>({item.aisle})</span>}
+            </li>
+          ))}
+        </ul>
       )}
 
       <Link to="/userdashboard" className="back-button">
@@ -191,7 +204,7 @@ const RecipeDetails = () => {
                 type="text"
                 placeholder="Title"
                 value={reviewForm.title}
-                style={{fontSize:16, color: "#000", backgroundColor: "#fff"}}
+                style={{ fontSize: 16, color: "#000", backgroundColor: "#fff" }}
                 readOnly
               />
               <textarea
@@ -207,7 +220,7 @@ const RecipeDetails = () => {
                 onChange={(e) =>
                   setReviewForm({ ...reviewForm, sentiment: e.target.value })
                 }
-                style={{fontSize:16}}
+                style={{ fontSize: 16 }}
                 required
               >
                 <option value="positive">Positive</option>
@@ -215,8 +228,14 @@ const RecipeDetails = () => {
                 <option value="negative">Negative</option>
               </select>
               <div className="modal-buttons">
-                <button type="submit" className="btn-login">Submit</button>
-                <button type="button" className="btn-login" onClick={() => setShowModal(false)}>
+                <button type="submit" className="btn-login">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="btn-login"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
               </div>
