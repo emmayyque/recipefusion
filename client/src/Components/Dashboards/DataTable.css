@@ -397,3 +397,59 @@ h3 {
   background: rgba(0, 0, 0, 0.6);
 
 }
+.review-carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.review-card {
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.review-sentiment.positive {
+  color: green;
+}
+
+.review-sentiment.neutral {
+  color: gray;
+}
+
+.review-sentiment.negative {
+  color: red;
+}
+
+.review-rating {
+  margin: 6px 0;
+}
+
+.star {
+  color: #ccc;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.review-text {
+  font-style: italic;
+  color: #444;
+}

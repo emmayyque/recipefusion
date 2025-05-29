@@ -19,6 +19,8 @@ const RecipeDetails = () => {
     review: "",
     sentiment: "neutral",
   });
+const [reviews, setReviews] = useState([]);
+const [reviewsLoading, setReviewsLoading] = useState(true);
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
@@ -53,9 +55,56 @@ const RecipeDetails = () => {
       }));
 
       ingredients.sort((a, b) => a.name.localeCompare(b.name));
-
       setShoppingList(ingredients);
     }
+  };
+
+  const downloadShoppingList = () => {
+    const printContent = document.getElementById("printable-area").innerHTML;
+    const printWindow = window.open("", "", "width=800,height=600");
+    printWindow.document.write(`
+<html>
+  <head>
+    <title>Shopping List - ${recipe.title}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 40px;
+        background-color: white;
+        color: black;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th, td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f0f0f0;
+      }
+      
+      @page {
+        margin: 20mm;
+        size: A4 portrait;
+      }
+    </style>
+  </head>
+  <body>
+    ${printContent}
+  </body>
+</html>
+`);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
   };
 
   const saveRecipe = async () => {
@@ -124,13 +173,9 @@ const RecipeDetails = () => {
         sentiment: reviewForm.sentiment,
       };
 
-      const res = await axios.post(
-        `${baseURL}/api/reviews/add-review`,
-        reviewData,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post(`${baseURL}/api/reviews/add-review`, reviewData, {
+        withCredentials: true,
+      });
 
       Swal.fire("Review Added", "Thanks for your feedback!", "success");
       setShowModal(false);
@@ -145,6 +190,41 @@ const RecipeDetails = () => {
     }
   };
 
+useEffect(() => {
+  const fetchRecipeDetails = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.get(
+        `https://api.spoonacular.com/recipes/${id}/information?apiKey=${
+          import.meta.env.VITE_FOOD_API
+        }`
+      );
+      setRecipe(response.data);
+
+      setReviewForm((prevForm) => ({
+        ...prevForm,
+        title: response.data.title,
+      }));
+
+      // Fetch reviews using Spoonacular recipe.id
+      const reviewsRes = await axios.get(`${baseURL}/api/reviews/reviews/${id}`);
+      setReviews(reviewsRes.data);
+    } catch (error) {
+      console.error("Error fetching recipe or reviews:", error);
+      setError("Failed to load recipe details.");
+    }
+
+    setLoading(false);
+    setReviewsLoading(false);
+  };
+
+  fetchRecipeDetails();
+}, [id]);
+
+
+
   if (loading) return <Loader />;
   if (error) return <p className="error-text">{error}</p>;
   if (!recipe) return null;
@@ -156,7 +236,9 @@ const RecipeDetails = () => {
       <h3>Ingredients</h3>
       <ul className="ingredient-list">
         {recipe.extendedIngredients.map((ingredient) => (
-          <li key={ingredient.id}>{ingredient.original}</li>
+          <li key={`${ingredient.id}-${ingredient.original}`}>
+            {ingredient.original}
+          </li>
         ))}
       </ul>
 
@@ -164,7 +246,7 @@ const RecipeDetails = () => {
       <ol className="instructions-list">
         {recipe.analyzedInstructions.length > 0
           ? recipe.analyzedInstructions[0].steps.map((step) => (
-              <li key={step.number}>{step.step}</li>
+              <li key={`${step.number}-${step.step}`}>{step.step}</li>
             ))
           : "No instructions available."}
       </ol>
@@ -179,20 +261,88 @@ const RecipeDetails = () => {
         Add Review
       </button>
 
+<h3>User Reviews</h3>
+{reviewsLoading ? (
+  <p>Loading reviews...</p>
+) : reviews.length === 0 ? (
+  <p className="no-reviews-text">No reviews yet.</p>
+) : (
+  <div className="review-carousel">
+    {reviews.map((r) => (
+  <div key={r._id} className={`review-card ${r.sentiment}`}>
+    <div className="review-header">
+      <span className="review-username">{r.userId?.username || "Anonymous"}</span>
+      <span className={`review-sentiment ${r.sentiment}`}>{r.sentiment}</span>
+    </div>
+
+    <div className="review-rating">
+      {[...Array(5)].map((_, i) => {
+        let starsToFill = 0;
+        if (r.sentiment === "positive") starsToFill = 5;
+        else if (r.sentiment === "neutral") starsToFill = 3;
+        else if (r.sentiment === "negative") starsToFill = 1;
+
+        return (
+          <span key={i} className={i < starsToFill ? "star filled" : "star"}>
+            ★
+          </span>
+        );
+      })}
+    </div>
+
+    <p className="review-text">"{r.review}"</p>
+  </div>
+))}
+
+  </div>
+)}
+
+
+
+
+
       {shoppingList.length > 0 && (
-        <ul className="shopping-list-list">
-          {shoppingList.map((item, index) => (
-            <li key={index}>
-              <span style={{ fontWeight: "600" }}>{item.name}</span>
-              {item.aisle && <span>({item.aisle})</span>}
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="shopping-list-list">
+            {shoppingList.map((item, index) => (
+              <li key={`${item.name}-${item.aisle}-${index}`}>
+                <span style={{ fontWeight: "600" }}>{item.name}</span>
+                {item.aisle && <span> ({item.aisle})</span>}
+              </li>
+            ))}
+          </ul>
+          <button className="back-button" onClick={downloadShoppingList}>
+            Download Grocery List (PDF)
+          </button>
+        </>
       )}
 
       <Link to="/userdashboard" className="back-button">
         Back to Recipes
       </Link>
+
+      {/* Hidden printable area */}
+      <div id="printable-area" style={{ display: "none" }}>
+        <table>
+          <thead>
+            <tr>
+              <th colSpan="3">GROCERY LIST OF {recipe.title.toUpperCase()}</th>
+            </tr>
+            <tr>
+              <th>Item</th>
+              <th>Purpose (Aisle)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shoppingList.map((item, index) => (
+              <tr key={`${item.name}-${item.aisle}-${index}`}>
+                <td>{item.name}</td>
+                <td>{item.aisle || "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Review Modal */}
       {showModal && (
